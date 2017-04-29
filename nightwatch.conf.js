@@ -1,5 +1,4 @@
 const BINPATH = './node_modules/nightwatch/bin/'; 
-const SCREENSHOT_PATH = "./screenshots/";
 
 const config = {
   "src_folders": ["tests"],
@@ -14,7 +13,7 @@ const config = {
       "webdriver.chrome.driver" : BINPATH + "chromedriver"
     }
   },
-  "test_workers" : {"enabled" : true, "workers" : "auto"},
+  //"test_workers" : {"enabled" : true, "workers" : "auto"},
   "test_settings": {
     "local": {
       "launch_url": "http://localhost",
@@ -23,7 +22,7 @@ const config = {
       "silent": true,
       "screenshots": {
         "enabled": true,
-        "path": SCREENSHOT_PATH
+        "path": "./screenshots/"
       }, 
       "globals": {"waitForConditionTimeout": 15000},
       "desiredCapabilities": {

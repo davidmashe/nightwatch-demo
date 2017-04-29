@@ -1,3 +1,5 @@
+const BINPATH = './node_modules/nightwatch/bin/'; 
+
 require('fs').stat(BINPATH + 'selenium.jar', function (err, stat) {
   if (err || !stat || stat.size < 1) {
     require('selenium-download').ensure(BINPATH, function(error) {
@@ -8,3 +10,4 @@ require('fs').stat(BINPATH + 'selenium.jar', function (err, stat) {
     console.log("selenium is installed!");
   }
 });
+
