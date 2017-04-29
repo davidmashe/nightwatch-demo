@@ -49,33 +49,3 @@ const config = {
   }
 }
 module.exports = config;
-
-require('fs').stat(BINPATH + 'selenium.jar', function (err, stat) {
-  if (err || !stat || stat.size < 1) {
-    require('selenium-download').ensure(BINPATH, function(error) {
-      if (error) throw new Error(error);
-      console.log('✔ Selenium & Chromedriver downloaded to:', BINPATH);
-    });
-  } else {
-    console.log("selenium is installed!");
-  }
-});
-
-function padLeft (count) {
-  return count < 10 ? '0' + count : count.toString();
-}
-
-var FILECOUNT = 0;
-
-function imgpath (browser) {
-  var a = browser.options.desiredCapabilities;
-  var meta = [a.platform];
-  meta.push(a.browserName ? a.browserName : 'any');
-  meta.push(a.version ? a.version : 'any');
-  meta.push(a.name);
-  var metadata = meta.join('~').toLowerCase().replace(/ /g, '');
-  return SCREENSHOT_PATH + metadata + '_' + padLeft(FILECOUNT++) + '_';
-}
-
-module.exports.imgpath = imgpath;
-module.exports.SCREENSHOT_PATH = SCREENSHOT_PATH;
