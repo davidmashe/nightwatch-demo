@@ -1,13 +1,11 @@
-require('env2')('.env'); // optionally store your environment variables in .env
-const PKG = require('./package.json'); // so we can get the version of the project
+//require('env2')('.env'); // optionally store your environment variables in .env
+//const PKG = require('./package.json'); // so we can get the version of the project
 const BINPATH = './node_modules/nightwatch/bin/'; // change if required.
-const SCREENSHOT_PATH = "./node_modules/nightwatch/screenshots/" + PKG.version + "/";
+const SCREENSHOT_PATH = "./screenshots/";
 
 const config = { // we use a nightwatch.conf.js file so we can include comments and helper functions
-  "src_folders": [
-    "test/e2e"     // we use '/test' as the name of our test directory by default. So 'test/e2e' for 'e2e'.
-  ],
-  "output_folder": "./node_modules/nightwatch/reports", // reports (test outcome) output by Nightwatch
+  "src_folders": ["tests"],
+  "output_folder": "./reports", // reports (test outcome) output by Nightwatch
   "selenium": {
     "start_process": true,
     "server_path": BINPATH + "selenium.jar", // downloaded by selenium-download module (see below)
@@ -20,21 +18,21 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
   },
   "test_workers" : {"enabled" : true, "workers" : "auto"}, // perform tests in parallel where possible
   "test_settings": {
-    "default": {
-      "launch_url": "http://localhost", // we're testing a Public or "staging" site on Saucelabs
-      "selenium_port": 80,
-      "selenium_host": "ondemand.saucelabs.com",
-      "silent": true,
-      "screenshots": {
-        "enabled": true, // save screenshots to this directory (excluded by .gitignore)
-        "path": SCREENSHOT_PATH
-      },
-      "username" : "${SAUCE_USERNAME}",     // if you want to use Saucelabs remember to
-      "access_key" : "${SAUCE_ACCESS_KEY}", // export your environment variables (see readme)
-      "globals": {
-        "waitForConditionTimeout": 10000    // wait for content on the page before continuing
-      }
-    },
+    // "default": {
+    //   "launch_url": "http://localhost", // we're testing a Public or "staging" site on Saucelabs
+    //   "selenium_port": 80,
+    //   "selenium_host": "ondemand.saucelabs.com",
+    //   "silent": true,
+    //   "screenshots": {
+    //     "enabled": true, // save screenshots to this directory (excluded by .gitignore)
+    //     "path": SCREENSHOT_PATH
+    //   },
+    //   "username" : "${SAUCE_USERNAME}",     // if you want to use Saucelabs remember to
+    //   "access_key" : "${SAUCE_ACCESS_KEY}", // export your environment variables (see readme)
+    //   "globals": {
+    //     "waitForConditionTimeout": 10000    // wait for content on the page before continuing
+    //   }
+    // },
     "local": {
       "launch_url": "http://localhost",
       "selenium_port": 4444,
@@ -44,9 +42,7 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
         "enabled": true, // save screenshots taken here
         "path": SCREENSHOT_PATH
       }, // this allows us to control the
-      "globals": {
-        "waitForConditionTimeout": 15000 // on localhost sometimes internet is slow so wait...
-      },
+      "globals": {"waitForConditionTimeout": 15000},
       "desiredCapabilities": {
         "browserName": "chrome",
         "chromeOptions": {
@@ -66,51 +62,6 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
         "javascriptEnabled": true,
         "acceptSslCerts": true
       }
-    },
-    "chromemac": { // browsers used on saucelabs:
-      "desiredCapabilities": {
-        "browserName": "chrome",
-        "platform": "OS X 10.11",
-        "version": "47"
-      }
-    },
-    "ie11": {
-      "desiredCapabilities": {
-        "browserName": "internet explorer",
-        "platform": "Windows 10",
-        "version": "11.0"
-      }
-    },
-    "firefox" : {
-      "desiredCapabilities": {
-        "platform": "XP",
-        "browserName": "firefox",
-        "version": "33"
-      }
-    },
-    "internet_explorer_10" : {
-      "desiredCapabilities": {
-        "platform": "Windows 7",
-        "browserName": "internet explorer",
-        "version": "10"
-      }
-    },
-    "android_s4_emulator": {
-      "desiredCapabilities": {
-        "browserName": "android",
-        "deviceOrientation": "portrait",
-        "deviceName": "Samsung Galaxy S4 Emulator",
-        "version": "4.4"
-      }
-    },
-    "iphone_6_simulator": {
-      "desiredCapabilities": {
-        "browserName": "iPhone",
-        "deviceOrientation": "portrait",
-        "deviceName": "iPhone 6",
-        "platform": "OSX 10.10",
-        "version": "8.4"
-      }
     }
   }
 }
@@ -127,6 +78,8 @@ require('fs').stat(BINPATH + 'selenium.jar', function (err, stat) { // got it?
       if (error) throw new Error(error); // no point continuing so exit!
       console.log('✔ Selenium & Chromedriver downloaded to:', BINPATH);
     });
+  } else {
+    console.log("selenium is installed!");
   }
 });
 
