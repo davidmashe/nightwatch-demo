@@ -11,7 +11,7 @@ module.exports = {
       .waitForElementVisible('#login_field')
       .waitForElementVisible('#password')
       .setValue('#login_field', 'davidmashe')
-      .setValue('#password', 'MyWifeIs90%Tolerable')
+      .setValue('#password', process.env.GITHUB_PASSWORD)
       .click('#login > form > div.auth-form-body.mt-3 > input.btn.btn-primary.btn-block')
       .pause(1000)
       .assert.title('GitHub')
