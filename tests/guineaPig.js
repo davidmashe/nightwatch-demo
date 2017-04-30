@@ -1,17 +1,21 @@
 var config = require('../nightwatch.conf.js');
 
 module.exports = {
-  '@tags': ['guineaPig'],
-  'Guinea Pig Assert Title': function(browser) {
+  '@tags': ['githubLogin'],
+  'Github Login Works': function(browser) {
     browser
-      .url('https://saucelabs.com/test/guinea-pig')
+      .url('https://www.github.com')
       .waitForElementVisible('body')
-      .assert.title('I am a page title - Sauce Labs')
-      .saveScreenshot('./screenshots/one.png')
-      .clearValue('#i_am_a_textbox')
-      .setValue('#i_am_a_textbox', 'nightwatch roolz!')
-      .saveScreenshot('./screenshots/two.png')
-      .pause(3000)
+      .assert.title('The world\'s leading software development platform · GitHub')
+      .click("body > div.position-relative.js-header-wrapper > header > div > div > div > a:nth-child(2)")
+      .waitForElementVisible('#login_field')
+      .waitForElementVisible('#password')
+      .setValue('#login_field', 'davidmashe')
+      .setValue('#password', 'MyWifeIs90%Tolerable')
+      .click('#login > form > div.auth-form-body.mt-3 > input.btn.btn-primary.btn-block')
+      .pause(1000)
+      .assert.title('GitHub')
+      .saveScreenshot('./screenshots/login.png')
       .end();
   }
 };
